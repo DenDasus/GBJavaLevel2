@@ -20,9 +20,10 @@ public class DuplicateWords {
             Integer count = hashMap.get(s);
             hashMap.put(s, count == null ? 1 : count + 1);
         }
-
+    
+        System.out.println("Количество уникальных слов: " + hashMap.size());
         for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
-            System.out.println("Слово: \"" + entry.getKey() + "\", количество повторений: " + entry.getValue());
+            System.out.println("Слово: \"" + entry.getKey() + "\", количество вхождений: " + entry.getValue());
         }
     }
 }
