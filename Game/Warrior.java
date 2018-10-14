@@ -7,19 +7,21 @@ class Warrior extends Hero {
     }
     
     @Override
-    void hit(Hero hero) {
+    String hit(Hero hero) {
+        String result = "";
         if (hero != this) {
             if (health < 0) {
-                System.out.println("Герой погиб и бить не может!");
+                result += "Герой погиб и бить не может!\n";
             } else {
                 hero.causeDamage(damage);
             }
-            System.out.println(this.name + " нанес урон " + hero.name);
+            result += this.name + " нанес урон " + hero.name;
         }
+        return result;
     }
     
     @Override
-    void healing(Hero hero) {
-        System.out.println("Войны не умеют лечить!");
+    String healing(Hero hero) {
+        return "Войны не умеют лечить!";
     }
 }

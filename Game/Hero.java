@@ -1,6 +1,10 @@
 package Game;
 
 abstract class Hero {
+
+    public enum HeroTypes {
+        ASSASSIN, DOCTOR, WARRIOR
+    }
     
     protected int health;
     protected String name;
@@ -14,9 +18,9 @@ abstract class Hero {
         this.addHeal = addHeal;
     }
     
-    abstract void hit(Hero hero);
+    abstract String hit(Hero hero);
     
-    abstract void healing(Hero hero);
+    abstract String healing(Hero hero);
     
     void causeDamage(int damage) {
         if (health < 0) {
@@ -36,7 +40,11 @@ abstract class Hero {
     }
     
     void info() {
-        
         System.out.println(name + " " + (health < 0 ? "Герой мертвый" : health) + " " + damage);
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + (health < 0 ? "Герой мертвый" : health) + " " + damage;
     }
 }

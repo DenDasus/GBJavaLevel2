@@ -1,51 +1,98 @@
 package Game;
 
+import java.util.ArrayList;
 import java.util.Random;
 
-class Game {
-    public static void main(String[] args) {
-        
-        Random randomStep = new Random();
+public class Game {
+    public enum Teams {
+        TEAM1, TEAM2
+    }
+
+    GameLog gameLog;
+
+    private ArrayList<Hero> team1 = new ArrayList<>();
+    private ArrayList<Hero> team2 = new ArrayList<>();
+
+    public Game(GameLog gameLog) {
+        this.gameLog = gameLog;
+    }
+
+    public void addHero(Teams team, Hero.HeroTypes heroType, String name) {
+        Hero hero = null;
+
+        switch (heroType) {
+            case WARRIOR:
+                hero = new Warrior(290, name, 60, 0);
+                break;
+            case ASSASSIN:
+                hero = new Assassin(160, name, 90, 0);
+                break;
+            case DOCTOR:
+                hero = new Doctor(110, name, 0, 80);
+        }
+
+        switch (team) {
+            case TEAM1:
+                team1.add(hero);
+                break;
+            case TEAM2:
+                team2.add(hero);
+                break;
+        }
+    }
+
+    public ArrayList<Hero> getTeam(Teams team) {
+        switch (team) {
+            case TEAM1:
+                return team1;
+            case TEAM2:
+                return team2;
+        }
+        return null;
+    }
+
+    public void startGame(int rounds) {
+        gameLog.clearLog();
+
+        if(team1.size() == 0 || team2.size() == 0) {
+            gameLog.addToLog("Команда не может быть пустой! Выберите героев.");
+            return;
+        }
+
+        gameLog.addToLog("Да свершится битва героев!");
+
         Random randomHealing = new Random();
-        int round = 3;
-        
-        Hero[] team1 = new Hero[]{new Warrior(250, "Тигрил", 50, 0)
-                , new Assassin(150, "Акали", 70, 0)
-                , new Doctor(120, "Жанна", 0, 60)};
-        
-        
-        Hero[] team2 = new Hero[]{new Warrior(290, "Минотавр", 60, 0)
-                , new Assassin(160, "Джинкс", 90, 0)
-                , new Doctor(110, "Зои", 0, 80)};
-        
-        
-        for (int j = 0; j < round; j++) {
-            for (int i = 0; i < team1.length; i++) {
-                if (randomStep.nextInt(2) == 0) {
-                    if (team1[i] instanceof Doctor) {
-                        team1[i].healing(team1[randomHealing.nextInt(2)]);
-                    } else {
-                        team1[i].hit(team2[i]);
-                    }
+        Random randomHit = new Random();
+
+        for (int j = 0; j < rounds; j++) {
+            for (int i = 0; i < team1.size(); i++) {
+                String result;
+                if (team1.get(i) instanceof Doctor) {
+                    result = team1.get(i).healing(team1.get(randomHealing.nextInt(team1.size())));
                 } else {
-                    if (team2[i] instanceof Doctor) {
-                        team2[i].healing(team2[randomHealing.nextInt(2)]);
-                    } else {
-                        team2[i].hit(team1[i]);
-                    }
+                    result = team1.get(i).hit(team2.get(randomHit.nextInt(team2.size())));
                 }
+                gameLog.addToLog(result);
+            }
+            for (int i = 0; i < team2.size(); i++) {
+                String result;
+                if (team2.get(i) instanceof Doctor) {
+                    result = team2.get(i).healing(team2.get(randomHealing.nextInt(team2.size())));
+                } else {
+                    result = team2.get(i).hit(team1.get(randomHit.nextInt(team1.size())));
+                }
+                gameLog.addToLog(result);
             }
         }
-        
-        System.out.println("---------------");
-        
+
+        gameLog.addToLog("---------------");
+
         for (Hero t1 : team1) {
-            t1.info();
+            gameLog.addToLog(t1.toString());
         }
-        
+
         for (Hero t2 : team2) {
-            t2.info();
+            gameLog.addToLog(t2.toString());
         }
     }
 }
-
