@@ -37,15 +37,15 @@ public class GameWindow extends JFrame implements GameLog {
         JComboBox cbTeam2 = new JComboBox(Hero.HeroTypes.values());
         JButton buttonTeam1OK = new JButton("OK");
         JButton buttonTeam2OK = new JButton("OK");
-        JTextArea heroName1 = new JTextArea();
-        JTextArea heroName2 = new JTextArea();
+        JTextField heroName1 = new JTextField();
+        JTextField heroName2 = new JTextField();
 
-        cbTeam1.setBounds(5,5, 100, 30);
-        cbTeam2.setBounds(5,5, 100, 30);
-        heroName1.setBounds(115, 5, 90, 30);
-        heroName2.setBounds(115, 5, 90, 30);
-        buttonTeam1OK.setBounds(215, 5, 70, 30);
-        buttonTeam2OK.setBounds(215, 5, 70, 30);
+        cbTeam1.setBounds(5,30, 100, 30);
+        cbTeam2.setBounds(5,30, 100, 30);
+        heroName1.setBounds(115, 30, 90, 30);
+        heroName2.setBounds(115, 30, 90, 30);
+        buttonTeam1OK.setBounds(215, 30, 70, 30);
+        buttonTeam2OK.setBounds(215, 30, 70, 30);
 
         heroName1.setToolTipText("Имя героя");
         heroName2.setToolTipText("Имя героя");
@@ -54,13 +54,17 @@ public class GameWindow extends JFrame implements GameLog {
         DefaultListModel<String> listTeam2Model = new DefaultListModel<>();
         JList<String> listTeam1 = new JList<String>(listTeam1Model);
         JList<String> listTeam2 = new JList<String>(listTeam2Model);
-        listTeam1.setBounds(5, 50, 280, 230);
-        listTeam2.setBounds(5, 50, 280, 230);
+        listTeam1.setBounds(5, 85, 280, 200);
+        listTeam2.setBounds(5, 85, 280, 200);
 
         buttonTeam1OK.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
+                if(heroName1.getText().equals("")) {
+                    addToLog("Введите имя героя!");
+                    return;
+                }
                 game.addHero(Game.Teams.TEAM1, (Hero.HeroTypes)cbTeam1.getSelectedItem(), heroName1.getText());
                 listTeam1Model.addElement((Hero.HeroTypes)cbTeam1.getSelectedItem() + " " + heroName1.getText());
             }
@@ -70,6 +74,10 @@ public class GameWindow extends JFrame implements GameLog {
         {
             public void actionPerformed(ActionEvent e)
             {
+                if(heroName2.getText().equals("")) {
+                    addToLog("Введите имя героя!");
+                    return;
+                }
                 game.addHero(Game.Teams.TEAM2, (Hero.HeroTypes)cbTeam2.getSelectedItem(), heroName2.getText());
                 listTeam2Model.addElement((Hero.HeroTypes)cbTeam2.getSelectedItem() + " " + heroName2.getText());
             }
@@ -104,12 +112,31 @@ public class GameWindow extends JFrame implements GameLog {
         roundsPanel.setBounds(5, 5, 250, 40);
 
         gameLog = new JTextArea(30,30);
-//        gameLog.setBounds(5, 50, 580, 230);
         JScrollPane scrollPane = new JScrollPane(gameLog);
         scrollPane.setBounds(5, 50, 580, 230);
 
         downPanel.add(roundsPanel);
         downPanel.add(scrollPane);
+    
+        JLabel lblCommand1 = new JLabel("Команда 1");
+        JLabel lblCommand2 = new JLabel("Команда 2");
+        JLabel lblHeroName1 = new JLabel("Имя героя:");
+        JLabel lblHeroName2 = new JLabel("Имя героя:");
+        JLabel lblHeroType1 = new JLabel("Тип героя:");
+        JLabel lblHeroType2 = new JLabel("Тип героя:");
+        
+        lblCommand1.setBounds(5, 60, 90, 20);
+        lblCommand2.setBounds(5, 60, 90, 20);
+        lblHeroName1.setBounds(115, 5, 90, 20);
+        lblHeroName2.setBounds(115, 5, 90, 20);
+        lblHeroType1.setBounds(5, 5, 90, 20);
+        lblHeroType2.setBounds(5, 5, 90, 20);
+        leftPanel.add(lblCommand1);
+        rightPanel.add(lblCommand2);
+        leftPanel.add(lblHeroName1);
+        leftPanel.add(lblHeroType1);
+        rightPanel.add(lblHeroName2);
+        rightPanel.add(lblHeroType2);
 
         add(leftPanel);
         add(rightPanel);
