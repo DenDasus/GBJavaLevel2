@@ -1,0 +1,9 @@
+#btn1 {
+    -fx-font: 14px "Serif";
+    -fx-background-color: chocolate;
+}
+
+#btn1:hover {
+    -fx-font: 14px "Serif";
+    -fx-background-color: blue;
+}
