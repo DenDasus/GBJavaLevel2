@@ -2,16 +2,17 @@
      -fx-background-image: url("/resources/background1.jpg");
 }
 
-#btn1 {
+#btnSend {
     -fx-font: 14px "Serif";
 }
 
-#btn1:hover {
+#btnSend:hover {
     -fx-font: 14px "Serif";
 }
 
 #textArea {
     -fx-opacity: 0.6;
+    -fx-font: 18px "Serif";
 }
 
 #textField {

@@ -4,10 +4,13 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TextArea?>
 
-<VBox fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml" alignment="center" stylesheets="/css/Style.css" id="pane" >
+<?import javafx.geometry.Insets?>
+<VBox fx:controller="chat.Controller" xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="10" stylesheets="/css/Style.css" id="pane" >
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
     <TextArea fx:id="textArea" editable="false" VBox.vgrow="ALWAYS"/>
-    <HBox>
+    <HBox spacing="10">
+
         <TextField fx:id="textField" HBox.hgrow="ALWAYS" promptText="Введите сообщение" onAction="#sendMsg"/>
-        <Button fx:id="btn1" text="Send" onAction="#sendMsg"/>
+        <Button fx:id="btnSend" text="Send" onAction="#sendMsg"/>
     </HBox>
 </VBox>

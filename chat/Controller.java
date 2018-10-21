@@ -1,10 +1,12 @@
-package sample;
+package chat;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Controller {
 
@@ -14,8 +16,12 @@ public class Controller {
     @FXML
     TextField textField;
 
+    SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm");
+
     public void sendMsg(ActionEvent actionEvent) {
-        textArea.appendText(textField.getText() + "\n");
+        if(!(textField.getText().equals("") || textField.getText().matches("^\\s*"))) {
+            textArea.appendText(formatTime.format(new Date()) + ": " + textField.getText() + "\n");
+        }
         textField.clear();
         textField.requestFocus();
     }
