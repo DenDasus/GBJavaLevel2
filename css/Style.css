@@ -1,9 +1,19 @@
+#pane{
+     -fx-background-image: url("/resources/background1.jpg");
+}
+
 #btn1 {
     -fx-font: 14px "Serif";
-    -fx-background-color: chocolate;
 }
 
 #btn1:hover {
     -fx-font: 14px "Serif";
-    -fx-background-color: blue;
+}
+
+#textArea {
+    -fx-opacity: 0.6;
+}
+
+#textField {
+    -fx-opacity: 0.8;
 }

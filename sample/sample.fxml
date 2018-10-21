@@ -4,7 +4,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TextArea?>
 
-<VBox fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml" alignment="center" stylesheets="/css/Style.css">
+<VBox fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml" alignment="center" stylesheets="/css/Style.css" id="pane" >
     <TextArea fx:id="textArea" editable="false" VBox.vgrow="ALWAYS"/>
     <HBox>
         <TextField fx:id="textField" HBox.hgrow="ALWAYS" promptText="Введите сообщение" onAction="#sendMsg"/>
