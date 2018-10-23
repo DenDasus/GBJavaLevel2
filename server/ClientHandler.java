@@ -12,8 +12,8 @@ public class ClientHandler {
     private DataOutputStream out;
     private DataInputStream in;
 
-
     public ClientHandler(MainServer server, Socket socket) {
+        final ClientHandler instance = this;
 
         try {
             this.server = server;
@@ -39,16 +39,10 @@ public class ClientHandler {
                     } finally {
                         try {
                             in.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        try {
                             out.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        try {
                             socket.close();
+                            server.deleteClient(instance);
+                            System.out.println("Клиент отключился!");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

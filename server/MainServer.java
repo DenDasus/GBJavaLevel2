@@ -53,4 +53,7 @@ public class MainServer {
         }
     }
 
+    public void deleteClient(ClientHandler client) {
+                clients.removeElement(client);
+    }
 }
