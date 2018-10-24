@@ -48,12 +48,12 @@ public class MainServer {
     }
 
     public void broadCastMsg(String msg) {
-        for (ClientHandler o: clients) {
+        for (ClientHandler o : clients) {
             o.sendMsg(msg);
         }
     }
 
     public void deleteClient(ClientHandler client) {
-                clients.removeElement(client);
+        clients.removeElement(client);
     }
 }

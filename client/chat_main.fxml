@@ -5,8 +5,11 @@
 <?import javafx.scene.control.TextArea?>
 
 <?import javafx.geometry.Insets?>
-<VBox fx:controller="client.Controller" xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="10" stylesheets="/client/css/Style.css" id="pane" >
-    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+<VBox fx:controller="client.Controller" xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="10"
+      stylesheets="/client/css/Style.css" id="pane">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
     <TextArea fx:id="textArea" editable="false" VBox.vgrow="ALWAYS"/>
     <HBox spacing="10">
 

@@ -1,5 +1,5 @@
-#pane{
-     -fx-background-image: url("/client/resources/background1.jpg");
+#pane {
+    -fx-background-image: url("/client/resources/background1.jpg");
 }
 
 #btnSend {
