@@ -4,8 +4,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class ClientHandler {
 
@@ -13,11 +11,17 @@ public class ClientHandler {
     private Socket socket;
     private DataOutputStream out;
     private DataInputStream in;
-
-    private SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm");
-
-    private String userName = "User";
-
+    
+    private String userNick;
+    
+    public String getUserNick() {
+        return userNick;
+    }
+    
+    public void setUserNick(String userNick) {
+        this.userNick = userNick;
+    }
+    
     public ClientHandler(MainServer server, Socket socket) {
         final ClientHandler instance = this;
 
@@ -31,18 +35,44 @@ public class ClientHandler {
                 @Override
                 public void run() {
                     try {
+                        while(true) {
+                            String str = in.readUTF();
+                            if(str.startsWith("/auth")) {
+                                String[] parts = str.split(" ");
+                                String userName = parts[1];
+                                String pass = parts[2];
+                                
+                                String newNick = AuthService.getNickByUserNameAndPass(userName, pass); //Нужна проверка в БД
+                                
+                                if(newNick != null) {
+                                    if(!server.isNickBusy(newNick)) { //проверяем, занят лим ник
+                                        sendMsg("/authok");
+                                        setUserNick(newNick);
+                                        server.addClient(ClientHandler.this);
+                                        break;
+                                    } else {
+                                        sendMsg("Данный логин уже занят!");
+                                    }
+                                } else {
+                                    sendMsg("Неверный логин или пароль!");
+                                }
+                            }
+                        }
+                        
                         while (true) {
                             String str = in.readUTF();
-                            if (str.equals("/end")) {
-                                out.writeUTF("/serverClosed");
-                                break;
+                            if(str.startsWith("/")) {
+                                if (str.equals("/end")) {
+                                    out.writeUTF("/serverClosed");
+                                    break;
+                                }
+                                if(str.startsWith("/w ")) {
+                                    String[] parts = str.split(" ",3);
+                                    server.sendMsg(ClientHandler.this, parts[1], parts[2]);
+                                }
+                            } else {
+                                server.broadCastMsg(ClientHandler.this, str);
                             }
-                            if (str.matches("^/userName[\\s][\\w]{3,15}$")) {
-                                String[] parts = str.split(" ");
-                                userName = parts[1];
-                                continue;
-                            }
-                            server.broadCastMsg(formatTime.format(new Date()) + " " + userName + ": " + str);
                         }
                     } catch (IOException e) {
                         e.printStackTrace();

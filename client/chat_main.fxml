@@ -2,17 +2,32 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TextArea?>
 
 <?import javafx.geometry.Insets?>
-<VBox fx:controller="client.Controller" xmlns:fx="http://javafx.com/fxml" alignment="center" spacing="10"
-      stylesheets="/client/css/Style.css" id="pane">
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ListView?>
+<VBox fx:controller="client.Controller" xmlns:fx="http://javafx.com/fxml" spacing="10"
+      stylesheets="/client/css/Style.css" fx:id="pane">
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
-    <TextArea fx:id="textArea" editable="false" VBox.vgrow="ALWAYS"/>
-    <HBox spacing="10">
+    <!--<TextArea fx:id="textArea" editable="false" VBox.vgrow="ALWAYS"/>-->
 
+    <HBox fx:id="authPanel">
+        <TextField fx:id="loginField" promptText="Логин" HBox.hgrow="ALWAYS"></TextField>
+        <PasswordField fx:id="passwordField" promptText="Пароль" HBox.hgrow="ALWAYS" onAction="#tryToLogin"></PasswordField>
+        <Button text="Войти" onAction="#tryToLogin"></Button>
+    </HBox>
+
+    <HBox VBox.vgrow="ALWAYS">
+        <ScrollPane fx:id="messagesBoxScrollPane" HBox.hgrow="ALWAYS">
+            <VBox fx:id="messagesVBox" spacing="5"></VBox>
+        </ScrollPane>
+        <ListView fx:id="clientsList" managed="false" visible="false"></ListView>
+    </HBox>
+
+    <HBox fx:id="messageSendPanel" spacing="10" alignment="BOTTOM_CENTER" visible="false">
         <TextField fx:id="textField" HBox.hgrow="ALWAYS" promptText="Введите сообщение" onAction="#sendMsg"/>
         <Button fx:id="btnSend" text="Send" onAction="#sendMsg"/>
     </HBox>

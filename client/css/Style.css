@@ -10,11 +10,19 @@
     -fx-font: 14px "Serif";
 }
 
-#textArea {
-    -fx-opacity: 0.6;
-    -fx-font: 18px "Serif";
+#textField {
+    -fx-opacity: 0.8;
 }
 
-#textField {
+#messagesVBox {
+    -fx-opacity: 0.8;
+}
+
+#messagesBoxScrollPane {
+    -fx-opacity: 0.8;
+}
+
+.messageBox {
+    /*-fx-background-color: #FFFFFFFF;*/
     -fx-opacity: 0.8;
 }

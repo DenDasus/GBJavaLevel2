@@ -16,7 +16,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("chat_main.fxml"));
         primaryStage.setTitle("Chat");
-        primaryStage.setScene(new Scene(root, 400, 600));
+        primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.getIcons().add(new Image("/client/resources/logo-m.png"));
         primaryStage.show();
     }
