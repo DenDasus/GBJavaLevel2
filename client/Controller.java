@@ -37,6 +37,8 @@ public class Controller implements Initializable {
     HBox messageSendPanel;
     @FXML
     ListView<String> clientsList;
+    @FXML
+    ScrollPane messagesBoxScrollPane;
 
     Socket socket;
 
@@ -123,10 +125,15 @@ public class Controller implements Initializable {
                                     String[] parts = str.split(separator, 4);
                                     if(parts[2].equals("clientsList")) {
                                         String[] list = parts[3].split(" ");
-                                        clientsList.getItems().clear();
-                                        for (int i = 0; i < list.length; i++) {
-                                            clientsList.getItems().add(list[i]);
-                                        }
+                                        Platform.runLater(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                clientsList.getItems().clear();
+                                                for (int i = 0; i < list.length; i++) {
+                                                    clientsList.getItems().add(list[i]);
+                                                }
+                                            }
+                                        });
                                     }
                                 }
                                 

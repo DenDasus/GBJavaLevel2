@@ -60,11 +60,12 @@ public class MainServer {
     
     public void sendMsg(ClientHandler from, String to, String msg) {
         for (ClientHandler o : clients) {
-            String timeStr = formatTime.format(new Date());
             if(o.getUserNick().equals(to)) {
+                String timeStr = formatTime.format(new Date());
                 o.sendMsg("/pMsg" + separator + timeStr + separator + from.getUserNick() + separator + msg);
+                from.sendMsg("/pMsg" + separator + timeStr + separator + from.getUserNick() + separator + msg);
+                return;
             }
-            from.sendMsg("/pMsg" + separator + timeStr + separator + from.getUserNick() + separator + msg);
         }
     }
     

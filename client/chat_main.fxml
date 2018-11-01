@@ -12,7 +12,6 @@
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
-    <!--<TextArea fx:id="textArea" editable="false" VBox.vgrow="ALWAYS"/>-->
 
     <HBox fx:id="authPanel">
         <TextField fx:id="loginField" promptText="Логин" HBox.hgrow="ALWAYS"></TextField>
@@ -21,10 +20,14 @@
     </HBox>
 
     <HBox VBox.vgrow="ALWAYS">
-        <ScrollPane fx:id="messagesBoxScrollPane" HBox.hgrow="ALWAYS">
-            <VBox fx:id="messagesVBox" spacing="5"></VBox>
+        <ScrollPane fx:id="messagesBoxScrollPane" HBox.hgrow="ALWAYS" fitToWidth="true" >
+            <VBox fx:id="messagesVBox" spacing="5">
+                <padding>
+                    <Insets top="5" right="5" bottom="5" left="5"/>
+                </padding>
+            </VBox>
         </ScrollPane>
-        <ListView fx:id="clientsList" managed="false" visible="false"></ListView>
+        <ListView fx:id="clientsList" managed="false" visible="false"/>
     </HBox>
 
     <HBox fx:id="messageSendPanel" spacing="10" alignment="BOTTOM_CENTER" visible="false">

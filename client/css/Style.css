@@ -15,6 +15,7 @@
 }
 
 #messagesVBox {
+    /*-fx-background-color: red;*/
     -fx-opacity: 0.8;
 }
 
@@ -23,6 +24,5 @@
 }
 
 .messageBox {
-    /*-fx-background-color: #FFFFFFFF;*/
     -fx-opacity: 0.8;
 }

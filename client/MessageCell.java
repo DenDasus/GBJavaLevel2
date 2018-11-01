@@ -1,6 +1,8 @@
 package client;
 
+import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -32,23 +34,22 @@ public class MessageCell extends HBox {
         }
         
         HBox information = new HBox(inf, time);
+        VBox msgBox = new VBox(message);
         VBox vBox = new VBox(information, message);
-        
-        message.setWrappingWidth(300);
+
         message.setStyle("-fx-font: 16 arial;");
         
         if(income) {
-            message.setTextAlignment(TextAlignment.LEFT);
-            time.setTextAlignment(TextAlignment.LEFT);
-            this.setAlignment(CENTER_LEFT);
             information.setAlignment(CENTER_LEFT);
+            vBox.setAlignment(Pos.CENTER_LEFT);
         } else {
-            message.setTextAlignment(TextAlignment.RIGHT);
-            time.setTextAlignment(TextAlignment.RIGHT);
-            this.setAlignment(CENTER_RIGHT);
             information.setAlignment(CENTER_RIGHT);
+            vBox.setAlignment(Pos.CENTER_RIGHT);
         }
-        
+
+        message.setText(messageStr);
+
+        setHgrow(vBox, Priority.ALWAYS);
         this.getChildren().add(vBox);
         this.getStyleClass().add("messageBox");
     }
