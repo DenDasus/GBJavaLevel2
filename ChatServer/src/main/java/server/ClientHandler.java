@@ -55,10 +55,10 @@ public class ClientHandler {
                             alive = true;
                             if(str.startsWith("/auth")) {
                                 String[] parts = str.split(" ");
-                                String userName = parts[1];
+                                String login = parts[1];
                                 String pass = parts[2];
                                 
-                                String newNick = AuthService.getNickByUserNameAndPass(userName, pass); //Нужна проверка в БД
+                                String newNick = AuthService.getNickByLoginAndPass(login, pass, true); //Нужна проверка в БД
                                 
                                 if(newNick != null) {
                                     if(!server.isNickBusy(newNick)) { //проверяем, занят ли ник

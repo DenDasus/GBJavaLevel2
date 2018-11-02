@@ -18,6 +18,8 @@ public class MainServer {
     final String separator = "=!=";
 
     public MainServer() {
+    
+        AuthService.connect();
 
         ServerSocket server = null;
         Socket socket = null;
@@ -38,15 +40,12 @@ public class MainServer {
         } finally {
             try {
                 socket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
                 server.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            AuthService.disconnect();
         }
 
     }
