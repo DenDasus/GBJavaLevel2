@@ -15,9 +15,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Controller implements Initializable {
     
@@ -52,6 +50,8 @@ public class Controller implements Initializable {
     private boolean authorized = false;
     private String myNickName;
     
+    private Timer keepAliveTimer;
+    
     public void setAuthorized(boolean authorized) {
         this.authorized = authorized;
         
@@ -81,6 +81,21 @@ public class Controller implements Initializable {
             socket = new Socket(IP_ADRESS, PORT);
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
+            
+            keepAliveTimer = new Timer(true);
+            keepAliveTimer.scheduleAtFixedRate(new TimerTask() {
+                /**
+                 * The action to be performed by this timer task.
+                 */
+                @Override
+                public void run() {
+                    try {
+                        out.writeUTF("/keepAliveMsg");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, 10*1000, 100 * 1000);
 
             Thread socketListener = new Thread(new Runnable() {
                 @Override

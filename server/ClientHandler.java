@@ -4,8 +4,12 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ClientHandler {
+    
+    final ClientHandler instance = this;
 
     private MainServer server;
     private Socket socket;
@@ -13,6 +17,8 @@ public class ClientHandler {
     private DataInputStream in;
     
     private String userNick;
+    
+    private boolean alive = false;
     
     public String getUserNick() {
         return userNick;
@@ -23,13 +29,22 @@ public class ClientHandler {
     }
     
     public ClientHandler(MainServer server, Socket socket) {
-        final ClientHandler instance = this;
-
+        
         try {
             this.server = server;
             this.socket = socket;
             this.in = new DataInputStream(socket.getInputStream());
             this.out = new DataOutputStream(socket.getOutputStream());
+            
+            new Timer(true).schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if(alive == false) {
+                        closeConnection();
+                    }
+                    alive = false;
+                }
+            }, 10*1000, 120 * 1000);
 
             new Thread(new Runnable() {
                 @Override
@@ -37,6 +52,7 @@ public class ClientHandler {
                     try {
                         while(true) {
                             String str = in.readUTF();
+                            alive = true;
                             if(str.startsWith("/auth")) {
                                 String[] parts = str.split(" ");
                                 String userName = parts[1];
@@ -45,7 +61,7 @@ public class ClientHandler {
                                 String newNick = AuthService.getNickByUserNameAndPass(userName, pass); //Нужна проверка в БД
                                 
                                 if(newNick != null) {
-                                    if(!server.isNickBusy(newNick)) { //проверяем, занят лим ник
+                                    if(!server.isNickBusy(newNick)) { //проверяем, занят ли ник
                                         sendMsg("/authok");
                                         setUserNick(newNick);
                                         server.addClient(ClientHandler.this);
@@ -61,6 +77,7 @@ public class ClientHandler {
                         
                         while (true) {
                             String str = in.readUTF();
+                            
                             if(str.startsWith("/")) {
                                 if (str.equals("/end")) {
                                     out.writeUTF("/serverClosed");
@@ -70,6 +87,9 @@ public class ClientHandler {
                                     String[] parts = str.split(" ",3);
                                     server.sendMsg(ClientHandler.this, parts[1], parts[2]);
                                 }
+                                if(str.startsWith("/keepAliveMsg")) {
+                                    alive = true;
+                                }
                             } else {
                                 server.broadCastMsg(ClientHandler.this, str);
                             }
@@ -77,15 +97,7 @@ public class ClientHandler {
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
-                        try {
-                            in.close();
-                            out.close();
-                            socket.close();
-                            server.deleteClient(instance);
-                            System.out.println("Клиент отключился!");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        closeConnection();
                     }
                 }
             }).start();
@@ -98,6 +110,18 @@ public class ClientHandler {
     public void sendMsg(String msg) {
         try {
             out.writeUTF(msg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void closeConnection() {
+        try {
+            in.close();
+            out.close();
+            socket.close();
+            server.deleteClient(instance);
+            System.out.println("Клиент отключился!");
         } catch (IOException e) {
             e.printStackTrace();
         }
