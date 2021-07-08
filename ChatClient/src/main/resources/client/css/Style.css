@@ -1,0 +1,28 @@
+#pane {
+    -fx-background-image: url("/client/background1.jpg");
+}
+
+#btnSend {
+    -fx-font: 14px "Serif";
+}
+
+#btnSend:hover {
+    -fx-font: 14px "Serif";
+}
+
+#textField {
+    -fx-opacity: 0.8;
+}
+
+#messagesVBox {
+    /*-fx-background-color: red;*/
+    -fx-opacity: 0.8;
+}
+
+#messagesBoxScrollPane {
+    -fx-opacity: 0.8;
+}
+
+.messageBox {
+    -fx-opacity: 0.8;
+}
